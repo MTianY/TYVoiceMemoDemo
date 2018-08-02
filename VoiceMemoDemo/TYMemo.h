@@ -12,6 +12,7 @@
 
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, strong) NSURL *url;
+@property (nonatomic, copy) NSString *recordVoiceTime;
 
 + (instancetype)memoWithTitle:(NSString *)titleName url:(NSURL *)url;
 

@@ -38,6 +38,7 @@
     _memo = memo;
     
     self.cellTitileLabel.text = [NSString stringWithFormat:@"%@",memo.name];
+    self.cellTimeLabel.text = [NSString stringWithFormat:@"%@",memo.recordVoiceTime];
     
 }
 

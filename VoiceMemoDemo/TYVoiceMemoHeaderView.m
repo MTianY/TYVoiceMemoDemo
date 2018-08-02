@@ -97,6 +97,9 @@
                         NSString *voiceName = memo.name;
                         NSURL *voiceUrl = memo.url;
                         
+                        NSString *voiceTime = self.timeLabel.text;
+                        memo.recordVoiceTime = voiceTime;
+                        
                         [self.memoInstanceMutArray addObject:memo];
                         [self.voiceNameMutArray addObject:voiceName];
                         [self.voiceUrlMutArray addObject:voiceUrl];
@@ -118,7 +121,7 @@
 
 #pragma mark - UI
 - (void)setupUI {
-    self.backgroundColor = [UIColor whiteColor];
+    self.backgroundColor = [UIColor blackColor];
     
     self.playAndPauseButton.frame = CGRectMake(TYSCREEN_WIDTH * 0.5 - 100-10, 100, 80, 80);
     [self addSubview:self.playAndPauseButton];
