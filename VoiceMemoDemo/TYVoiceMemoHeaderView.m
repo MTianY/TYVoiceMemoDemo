@@ -19,7 +19,7 @@
 @property (nonatomic, strong) UIButton *stopButton;
 @property (nonatomic, strong) UILabel *timeLabel;
 
-@property (nonatomic, weak) NSTimer *timer;
+@property (nonatomic, strong) NSTimer *timer;
 
 @end
 
@@ -34,7 +34,8 @@
 
 #pragma mark - Timer
 - (void)startTimer {
-    self.timer = [NSTimer scheduledTimerWithTimeInterval:0.5 target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
+    self.timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
+    [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
 }
 
 - (void)stopTimer {

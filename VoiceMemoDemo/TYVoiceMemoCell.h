@@ -7,7 +7,17 @@
 //
 
 #import <UIKit/UIKit.h>
+
+typedef void(^cellPlayButtonClickCallBack)(void);
+typedef void(^cellPauseButtonClickCallBack)(void);
+typedef void(^cellDeleteButtonClickCallBack)(void);
+
 @class TYMemo;
 @interface TYVoiceMemoCell : UITableViewCell
 @property (nonatomic, strong) TYMemo *memo;
+
+@property (nonatomic, copy) cellPlayButtonClickCallBack playBtnCallBack;
+@property (nonatomic, copy) cellPauseButtonClickCallBack pauseBtnCallBack;
+@property (nonatomic, copy) cellDeleteButtonClickCallBack deleteBtnCallBack;
+
 @end

@@ -24,6 +24,10 @@ UITableViewDelegate
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) TYVoiceMemoHeaderView *headerView;
 
+@property (nonatomic, assign) BOOL isOpen;
+@property (nonatomic, strong) TYVoiceMemoCell *lastSelectedCell;
+@property (nonatomic, assign) NSInteger lastSelectedIndexPath_Row;
+
 @end
 
 @implementation TYVoiceMemoViewController
@@ -55,11 +59,13 @@ UITableViewDelegate
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     TYVoiceMemoCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID forIndexPath:indexPath];
     cell.memo = self.headerView.memoInstanceMutArray[indexPath.row];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.clipsToBounds = YES;
     return cell;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    return 60;
+    return self.isOpen ? 100 : 60;
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section {
@@ -70,13 +76,30 @@ UITableViewDelegate
     return 250;
 }
 
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section {
+    return nil;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section {
+    return 0;
+}
+
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    [self.headerView startTimer];
+//    TYMemo *memo = self.headerView.memoInstanceMutArray[indexPath.row];
+//    // 播放
+//    [[TYRecorderTool shareInstance] playbackMemo:memo];
     
-    TYMemo *memo = self.headerView.memoInstanceMutArray[indexPath.row];
-    // 播放
-    [[TYRecorderTool shareInstance] playbackMemo:memo];
+    self.isOpen = !self.isOpen;
+    self.lastSelectedIndexPath_Row = indexPath.row;
+    
+    [tableView beginUpdates];
+    [tableView endUpdates];
+    
+}
+
+- (void)tableView:(UITableView *)tableView didDeselectRowAtIndexPath:(NSIndexPath *)indexPath {
+    
 }
 
 #pragma mark - UI
