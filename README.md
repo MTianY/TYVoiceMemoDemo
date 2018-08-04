@@ -97,15 +97,15 @@ Privacy - Microphone Usage Description
         NSURL *fileURL = [NSURL fileURLWithPath:filePath];
         
         NSDictionary *settings = @{
-        								  // 1.音频格式
+        			// 1.音频格式
                                    AVFormatIDKey : @(kAudioFormatAppleIMA4),
-                                   // 2.采样率
+                                // 2.采样率
                                    AVSampleRateKey : @44100.0f,
-                                 	  // 3.单声道录制
+                                // 3.单声道录制
                                    AVNumberOfChannelsKey : @1,
-                                   // 4.位元深度
+                                // 4.位元深度
                                    AVEncoderBitDepthHintKey : @16,							
-                                   // 5.采样率转换的音频质量
+                                // 5.采样率转换的音频质量
                                    AVEncoderAudioQualityKey : @(AVAudioQualityMedium)
                                    };
         
