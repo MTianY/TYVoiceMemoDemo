@@ -10,6 +10,7 @@
 
 typedef void(^TYRecordingStopCompletionHandler)(BOOL);
 typedef void(^TYRecordingSaveCompletionHandler)(BOOL, id);
+typedef void(^TYAudioPlayerStopPlayingCompletionHandler)(BOOL);
 
 @class TYMemo;
 @interface TYRecorderTool : NSObject
@@ -17,6 +18,7 @@ typedef void(^TYRecordingSaveCompletionHandler)(BOOL, id);
 + (instancetype)shareInstance;
 
 @property (nonatomic, copy, readonly) NSString *formattedCurrentTime;
+@property (nonatomic, copy) TYAudioPlayerStopPlayingCompletionHandler audioPlayerStopPlayingCompletionHandler;
 
 - (BOOL)record;
 - (void)pause;
@@ -25,5 +27,6 @@ typedef void(^TYRecordingSaveCompletionHandler)(BOOL, id);
 - (void)saveRecordingWithName:(NSString *)name completionHandler:(TYRecordingSaveCompletionHandler)handler;
 
 - (BOOL)playbackMemo:(TYMemo *)memo;
+- (void)audioPlayerStopPlaying:(TYAudioPlayerStopPlayingCompletionHandler)stopPlayingHandler;
 
 @end

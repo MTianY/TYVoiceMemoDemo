@@ -51,6 +51,14 @@
         
         [[TYRecorderTool shareInstance] playbackMemo:self.memo];
         
+        [TYRecorderTool shareInstance].audioPlayerStopPlayingCompletionHandler = ^(BOOL success) {
+            if (success) {
+                [button setSelected:NO];
+                [button setImage:[UIImage imageNamed:@"cell-play"] forState:UIControlStateNormal];
+            }
+        };
+        
+        
     } else {
         [button setSelected:NO];
         [button setImage:[UIImage imageNamed:@"cell-play"] forState:UIControlStateSelected];

@@ -13,7 +13,8 @@
 static TYRecorderTool *_instance = nil;
 
 @interface TYRecorderTool () <
-AVAudioRecorderDelegate
+AVAudioRecorderDelegate,
+AVAudioPlayerDelegate
 >
 
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
@@ -56,6 +57,7 @@ AVAudioRecorderDelegate
         } else {
             NSLog(@"Error: %@",[error localizedDescription]);
         }
+        
         
     }
     return self;
@@ -102,13 +104,19 @@ AVAudioRecorderDelegate
 - (BOOL)playbackMemo:(TYMemo *)memo {
     [self.audioPlayer stop];
     self.audioPlayer = [[AVAudioPlayer alloc] initWithContentsOfURL:memo.url error:nil];
-    
+
     if (self.audioPlayer) {
+        self.audioPlayer.delegate = self;
         [self.audioPlayer play];
         return YES;
     }
     
     return NO;
+}
+
+- (void)audioPlayerStopPlaying:(TYAudioPlayerStopPlayingCompletionHandler)stopPlayingHandler {
+    self.stopCompletionHander = stopPlayingHandler;
+    [self.audioPlayer stop];
 }
 
 #pragma mark -
@@ -125,6 +133,13 @@ AVAudioRecorderDelegate
 - (void)audioRecorderDidFinishRecording:(AVAudioRecorder *)recorder successfully:(BOOL)flag {
     if (self.stopCompletionHander) {
         self.stopCompletionHander(flag);
+    }
+}
+
+#pragma mark - <AVAudioPlayerDelegate>
+- (void)audioPlayerDidFinishPlaying:(AVAudioPlayer *)player successfully:(BOOL)flag {
+    if (self.audioPlayerStopPlayingCompletionHandler) {
+        self.audioPlayerStopPlayingCompletionHandler(flag);
     }
 }
 
