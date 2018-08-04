@@ -83,3 +83,97 @@ kAudioFormatULaw
 Privacy - Microphone Usage Description
 ```
 
+#### 3.核心方法
+
+- 配置录音器
+	- 我们将录音记录在 tmp 目录中一个名为`memo.caf`的文件.在录制音频的过程中,`Core Audio Format(CAF)`通常是最好的容器格式,因为它和内容无关并可以保存`Core Audio`支持的任何音频格式.
+
+```objc
+- (instancetype)init {
+    if (self = [super init]) {
+        
+        NSString *tmpDir = NSTemporaryDirectory();
+        NSString *filePath = [tmpDir stringByAppendingPathComponent:@"memo.caf"];
+        NSURL *fileURL = [NSURL fileURLWithPath:filePath];
+        
+        NSDictionary *settings = @{
+        								  // 1.音频格式
+                                   AVFormatIDKey : @(kAudioFormatAppleIMA4),
+                                   // 2.采样率
+                                   AVSampleRateKey : @44100.0f,
+                                 	  // 3.单声道录制
+                                   AVNumberOfChannelsKey : @1,
+                                   // 4.位元深度
+                                   AVEncoderBitDepthHintKey : @16,							
+                                   // 5.采样率转换的音频质量
+                                   AVEncoderAudioQualityKey : @(AVAudioQualityMedium)
+                                   };
+        
+        NSError *error;
+        self.audioRecorder = [[AVAudioRecorder alloc] initWithURL:fileURL settings:settings error:&error];
+        
+        if (self.audioRecorder) {
+            self.audioRecorder.delegate = self;
+            [self.audioRecorder prepareToRecord];
+        } else {
+            NSLog(@"Error: %@",[error localizedDescription]);
+        }
+        
+        
+    }
+    return self;
+}
+```
+
+- 录制
+
+```objc
+- (BOOL)record {
+    return [self.audioRecorder record];
+}
+```
+
+- 暂停录制
+
+```objc
+- (void)pause {
+    [self.audioRecorder pause];
+}
+```
+
+- 结束录制
+
+```objc
+- (void)stopWithCompletionHandler:(TYRecordingStopCompletionHandler)handler {
+    self.stopCompletionHander = handler;
+    [self.audioRecorder stop];
+}
+```
+
+- 保存音频文件
+
+```objc
+- (void)saveRecordingWithName:(NSString *)name completionHandler:(TYRecordingSaveCompletionHandler)handler {
+    NSTimeInterval timestamp = [NSDate timeIntervalSinceReferenceDate];
+    NSString *filename = [NSString stringWithFormat:@"%@-%f.caf", name, timestamp];
+    NSString *docsDir = [self documentsDirectory];
+    NSString *destPath = [docsDir stringByAppendingPathComponent:filename];
+    NSURL *srcURL = self.audioRecorder.url;
+    NSURL *destURL = [NSURL fileURLWithPath:destPath];
+    
+    NSError *error;
+    BOOL success = [[NSFileManager defaultManager] copyItemAtURL:srcURL toURL:destURL error:&error];
+    
+    if (success) {
+        handler(YES, [TYMemo memoWithTitle:name url:destURL]);
+        [self.audioRecorder prepareToRecord];
+    } else {
+        handler(NO, error);
+    }
+}
+
+- (NSString *)documentsDirectory {
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    return [paths objectAtIndex:0];
+}
+```

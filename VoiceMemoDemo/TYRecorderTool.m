@@ -41,10 +41,15 @@ AVAudioPlayerDelegate
         NSURL *fileURL = [NSURL fileURLWithPath:filePath];
         
         NSDictionary *settings = @{
+                                   // 音频格式
                                    AVFormatIDKey : @(kAudioFormatAppleIMA4),
+                                   // 采样率
                                    AVSampleRateKey : @44100.0f,
+                                   // 单声道录制
                                    AVNumberOfChannelsKey : @1,
+                                   // 位元深度
                                    AVEncoderBitDepthHintKey : @16,
+                                   // 采样率转换的音频质量
                                    AVEncoderAudioQualityKey : @(AVAudioQualityMedium)
                                    };
         
