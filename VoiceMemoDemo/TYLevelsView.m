@@ -8,6 +8,7 @@
 
 #import "TYLevelsView.h"
 #import "TYLevelPairs.h"
+#import "TYRecorderTool.h"
 
 @implementation TYLevelsView
 
@@ -18,14 +19,25 @@
     return self;
 }
 
-#pragma mark - SET
-- (void)setLevelPairs:(TYLevelPairs *)levelPairs {
-    _levelPairs = levelPairs;
+#pragma mark - DRAW RECT
+- (void)drawRect:(CGRect)rect {
     
-    float linearLevel = levelPairs.linearLevel;
-    float peakLevel = levelPairs.linearPeakLevel;
+    TYLevelPairs *pairs = [[TYRecorderTool shareInstance] levels];
+    float linearLevel = pairs.linearLevel;
+    float peakLevel = pairs.linearPeakLevel;
+    NSLog(@"\n linearLevel=%f \n peakLevel=%f",linearLevel,peakLevel);
     
-    NSLog(@"linearLevel = %f \n peakLevel = %f",linearLevel, peakLevel);
+    UIBezierPath *bezierPath = [UIBezierPath bezierPath];
+    bezierPath.lineWidth = 1;
+    
+    [bezierPath moveToPoint:CGPointMake(10, 10)];
+    [bezierPath addLineToPoint:CGPointMake(linearLevel, peakLevel)];
+    
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+    shapeLayer.strokeColor = [UIColor redColor].CGColor;
+    shapeLayer.fillColor = [UIColor greenColor].CGColor;
+    shapeLayer.path = bezierPath.CGPath;
+    [self.layer addSublayer:shapeLayer];
     
 }
 

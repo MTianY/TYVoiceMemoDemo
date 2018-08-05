@@ -11,7 +11,9 @@
 @class TYLevelPairs;
 @interface TYLevelsView : UIView
 
+// 平均值
 @property (nonatomic, assign) float level;
+// 峰值
 @property (nonatomic, assign) float peakLevel;
 @property (nonatomic, strong) TYLevelPairs *levelPairs;
 

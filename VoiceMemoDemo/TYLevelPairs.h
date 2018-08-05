@@ -10,7 +10,9 @@
 
 @interface TYLevelPairs : NSObject
 
+// 平均值
 @property (nonatomic, assign) float linearLevel;
+// 峰值
 @property (nonatomic, assign) float linearPeakLevel;
 
 + (TYLevelPairs *)levelsWithLevel:(float)linearLevel peakLevel:(float)peakLevel;
