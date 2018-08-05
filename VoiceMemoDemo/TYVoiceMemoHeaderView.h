@@ -17,4 +17,7 @@
 - (void)startTimer;
 - (void)stopTimer;
 
+- (void)startMeterTimer;
+- (void)stopMeterTimer;
+
 @end

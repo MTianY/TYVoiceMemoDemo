@@ -9,6 +9,8 @@
 #import "TYVoiceMemoHeaderView.h"
 #import "TYRecorderTool.h"
 #import "TYMemo.h"
+#import "TYLevelPairs.h"
+#import "TYLevelsView.h"
 
 #define TYSCREEN_WIDTH  [UIScreen mainScreen].bounds.size.width
 #define TYSCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
@@ -20,6 +22,8 @@
 @property (nonatomic, strong) UILabel *timeLabel;
 
 @property (nonatomic, strong) NSTimer *timer;
+@property (nonatomic, strong) CADisplayLink *levelTimer;
+@property (nonatomic, strong) TYLevelsView *levelsView;
 
 @end
 
@@ -32,7 +36,7 @@
     return self;
 }
 
-#pragma mark - Timer
+#pragma mark - timeTimer
 - (void)startTimer {
     self.timer = [NSTimer timerWithTimeInterval:1.0f target:self selector:@selector(updateTime) userInfo:nil repeats:YES];
     [[NSRunLoop mainRunLoop] addTimer:self.timer forMode:NSRunLoopCommonModes];
@@ -47,6 +51,28 @@
     self.timeLabel.text = [TYRecorderTool shareInstance].formattedCurrentTime;
 }
 
+#pragma mark - LevelTimer
+- (void)startMeterTimer {
+    [self.levelTimer invalidate];
+    self.levelTimer = [CADisplayLink displayLinkWithTarget:self selector:@selector(updateMeter)];
+    self.levelTimer.frameInterval = 5;
+    [self.levelTimer addToRunLoop:[NSRunLoop currentRunLoop] forMode:NSRunLoopCommonModes];
+}
+
+- (void)stopMeterTimer {
+    [self.levelTimer invalidate];
+    self.levelTimer = nil;
+    [self.levelsView resetLevelMeter];
+}
+
+- (void)updateMeter {
+    TYLevelPairs *levelPairs = [[TYRecorderTool shareInstance] levels];
+    self.levelsView.level = levelPairs.linearLevel;
+    self.levelsView.peakLevel = levelPairs.linearPeakLevel;
+    self.levelsView.levelPairs = levelPairs;
+    [self.levelsView setNeedsDisplay];
+}
+
 #pragma mark - Button Method
 - (void)playAndPauseButtonClick:(UIButton *)button {
     button.selected = !button.selected;
@@ -55,6 +81,8 @@
         [[TYRecorderTool shareInstance] record];
         
         [self startTimer];
+        
+        [self startMeterTimer];
         
     } else {
         NSLog(@"暂停");
@@ -70,6 +98,8 @@
         if (success) {
             
             [self stopTimer];
+            
+            [self stopMeterTimer];
             
             [self.playAndPauseButton setSelected:NO];
             [self.playAndPauseButton setImage:[UIImage imageNamed:@"play"] forState:UIControlStateNormal];
@@ -132,9 +162,12 @@
     self.timeLabel.frame = CGRectMake(TYSCREEN_WIDTH * 0.5-100, 40, 200, 40);
     [self addSubview:self.timeLabel];
     
+    self.levelsView.frame = CGRectMake(0, 200, TYSCREEN_WIDTH, 80);
+    [self addSubview:self.levelsView];
+    
     UIView *lineView = [[UIView alloc] init];
     lineView.backgroundColor = [UIColor lightGrayColor];
-    lineView.frame = CGRectMake(0, 249, TYSCREEN_WIDTH, 1);
+    lineView.frame = CGRectMake(0, 299, TYSCREEN_WIDTH, 1);
     [self addSubview:lineView];
     
 }
@@ -189,6 +222,13 @@
         _memoInstanceMutArray = [NSMutableArray array];
     }
     return _memoInstanceMutArray;
+}
+
+- (TYLevelsView *)levelsView {
+    if (nil == _levelsView) {
+        _levelsView = [[TYLevelsView alloc] init];
+    }
+    return _levelsView;
 }
 
 #pragma mark 拿到控制器
