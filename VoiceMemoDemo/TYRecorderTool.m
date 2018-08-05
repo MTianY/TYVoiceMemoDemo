@@ -9,6 +9,7 @@
 #import "TYRecorderTool.h"
 #import <AVFoundation/AVFoundation.h>
 #import "TYMemo.h"
+#import "TYMeterTable.h"
 
 static TYRecorderTool *_instance = nil;
 
@@ -20,6 +21,7 @@ AVAudioPlayerDelegate
 @property (nonatomic, strong) AVAudioPlayer *audioPlayer;
 @property (nonatomic, strong) AVAudioRecorder *audioRecorder;
 @property (nonatomic, strong) TYRecordingStopCompletionHandler stopCompletionHander;
+@property (nonatomic, strong) TYMeterTable *meterTable;
 
 @end
 
@@ -58,10 +60,14 @@ AVAudioPlayerDelegate
         
         if (self.audioRecorder) {
             self.audioRecorder.delegate = self;
+            // 开启音频测量
+            self.audioRecorder.meteringEnabled = YES;
             [self.audioRecorder prepareToRecord];
         } else {
             NSLog(@"Error: %@",[error localizedDescription]);
         }
+        
+        _meterTable = [[TYMeterTable alloc] init];
         
         
     }
@@ -122,6 +128,15 @@ AVAudioPlayerDelegate
 - (void)audioPlayerStopPlaying:(TYAudioPlayerStopPlayingCompletionHandler)stopPlayingHandler {
     self.stopCompletionHander = stopPlayingHandler;
     [self.audioPlayer stop];
+}
+
+- (TYLevelPairs *)levels {
+    [self.audioRecorder updateMeters];
+    float avgPower = [self.audioRecorder averagePowerForChannel:0];
+    float peakPower = [self.audioRecorder peakPowerForChannel:0];
+    float linearLevel = [self.meterTable valueForPower:avgPower];
+    float linearPeak = [self.meterTable valueForPower:peakPower];
+    return [TYLevelPairs levelsWithLevel:linearLevel peakLevel:linearPeak];
 }
 
 #pragma mark -

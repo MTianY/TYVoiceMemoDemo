@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4C4E14EC2116891F00BA1C70 /* TYMeterTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4E14EB2116891F00BA1C70 /* TYMeterTable.m */; };
+		4C4E14EF21168BC400BA1C70 /* TYLevelPairs.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C4E14EE21168BC400BA1C70 /* TYLevelPairs.m */; };
 		4C7A65142111404C00F6F9A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7A65132111404C00F6F9A9 /* AppDelegate.m */; };
 		4C7A651C2111404E00F6F9A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4C7A651B2111404E00F6F9A9 /* Assets.xcassets */; };
 		4C7A651F2111404E00F6F9A9 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4C7A651D2111404E00F6F9A9 /* LaunchScreen.storyboard */; };
@@ -38,6 +40,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4C4E14EA2116891F00BA1C70 /* TYMeterTable.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TYMeterTable.h; sourceTree = "<group>"; };
+		4C4E14EB2116891F00BA1C70 /* TYMeterTable.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TYMeterTable.m; sourceTree = "<group>"; };
+		4C4E14ED21168BC400BA1C70 /* TYLevelPairs.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = TYLevelPairs.h; sourceTree = "<group>"; };
+		4C4E14EE21168BC400BA1C70 /* TYLevelPairs.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = TYLevelPairs.m; sourceTree = "<group>"; };
 		4C7A650F2111404C00F6F9A9 /* VoiceMemoDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VoiceMemoDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C7A65122111404C00F6F9A9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4C7A65132111404C00F6F9A9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -123,6 +129,10 @@
 				4C7A654B2111454B00F6F9A9 /* TYVoiceMemoHeaderView.m */,
 				4C7A65472111448C00F6F9A9 /* TYVoiceMemoCell.h */,
 				4C7A65482111448C00F6F9A9 /* TYVoiceMemoCell.m */,
+				4C4E14EA2116891F00BA1C70 /* TYMeterTable.h */,
+				4C4E14EB2116891F00BA1C70 /* TYMeterTable.m */,
+				4C4E14ED21168BC400BA1C70 /* TYLevelPairs.h */,
+				4C4E14EE21168BC400BA1C70 /* TYLevelPairs.m */,
 				4C7A651B2111404E00F6F9A9 /* Assets.xcassets */,
 				4C7A651D2111404E00F6F9A9 /* LaunchScreen.storyboard */,
 				4C7A65202111404E00F6F9A9 /* Info.plist */,
@@ -281,7 +291,9 @@
 				4C7A65502111883C00F6F9A9 /* TYRecorderTool.m in Sources */,
 				4C7A65532111937600F6F9A9 /* TYMemo.m in Sources */,
 				4C7A65462111409F00F6F9A9 /* TYVoiceMemoViewController.m in Sources */,
+				4C4E14EC2116891F00BA1C70 /* TYMeterTable.m in Sources */,
 				4C7A65492111448C00F6F9A9 /* TYVoiceMemoCell.m in Sources */,
+				4C4E14EF21168BC400BA1C70 /* TYLevelPairs.m in Sources */,
 				4C7A65222111404E00F6F9A9 /* main.m in Sources */,
 				4C7A65142111404C00F6F9A9 /* AppDelegate.m in Sources */,
 				4C7A654C2111454B00F6F9A9 /* TYVoiceMemoHeaderView.m in Sources */,

@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "TYLevelPairs.h"
 
 typedef void(^TYRecordingStopCompletionHandler)(BOOL);
 typedef void(^TYRecordingSaveCompletionHandler)(BOOL, id);
@@ -28,5 +29,7 @@ typedef void(^TYAudioPlayerStopPlayingCompletionHandler)(BOOL);
 
 - (BOOL)playbackMemo:(TYMemo *)memo;
 - (void)audioPlayerStopPlaying:(TYAudioPlayerStopPlayingCompletionHandler)stopPlayingHandler;
+
+- (TYLevelPairs *)levels;
 
 @end
