@@ -177,3 +177,29 @@ Privacy - Microphone Usage Description
     return [paths objectAtIndex:0];
 }
 ```
+
+#### 4.音频测量 AudioMetering
+
+AudioMetering 可以让开发者读取音频的平均分贝和峰值分贝数据.
+
+- 如果想要进行音频测量,第一步要设置录音器的 `meteringEnabled` 属性为 YES,这样录音器可以对捕捉到的音频样本进行分贝计算.
+
+```objc
+self.audioRecorder.meteringEnabled = YES;
+```
+
+
+- 每当需要读取值时,要先调用 `updateMeters` 方法才能获取最新的值
+
+```objc
+[self.audioRecorder updateMeters];
+```
+
+- 通过 `averagePowerForChannel:` 和 `peakPowerForChannel:` 这两个方法提供的读书,可以得到一个标识分贝等级的浮点值
+
+```objc
+// 如果单声道录制,那么通道索引为0
+float avgPower = [self.audioRecorder averagePowerForChannel:0];
+float peakPower = [self.audioRecorder peakPowerForChannel:0];
+```
+
